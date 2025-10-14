@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Archivo JSON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .info-box h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        .data-preview {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+            color: #856404;
+        }
+        .stats {
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Actualizar Archivo JSON</h1>
+        
+        <div class="success-box">
+            <h3>✅ ¡Los datos SÍ se están guardando!</h3>
+            <p>Como puedes ver en la consola, los formularios están funcionando perfectamente y guardando los datos en localStorage. El archivo JSON no se actualiza automáticamente por limitaciones de seguridad de los archivos estáticos.</p>
+        </div>
+
+        <div class="info-box">
+            <h3>ℹ️ ¿Por qué no se actualiza automáticamente?</h3>
+            <p>Los archivos estáticos (HTML, CSS, JS) <strong>no pueden escribir directamente</strong> a archivos del servidor por razones de seguridad. Los datos se guardan correctamente en el navegador (localStorage).</p>
+        </div>
+
+        <div id="status-container"></div>
+
+        <div class="stats" id="stats-container">
+            <h3>📊 Datos Actuales en localStorage</h3>
+            <div id="stats-content">
+                Cargando estadísticas...
+            </div>
+        </div>
+
+        <div>
+            <h3>📋 Contenido JSON Actualizado:</h3>
+            <div id="json-preview" class="data-preview">
+                Cargando datos...
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📝 Instrucciones para Actualizar el Archivo JSON:</h3>
+            <ol>
+                <li><strong>Haz clic en "📥 Descargar JSON Actualizado"</strong> para descargar el archivo con todos los datos</li>
+                <li><strong>O haz clic en "📋 Copiar JSON"</strong> para copiar el contenido al portapapeles</li>
+                <li><strong>Reemplaza</strong> el archivo <code>mensajes-formulario.json</code> con el contenido descargado/copiado</li>
+                <li><strong>¡Listo!</strong> El archivo JSON estará actualizado con todos los datos</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="btn" onclick="cargarDatos()">🔄 Actualizar Vista</button>
+            <button class="btn btn-success" onclick="descargarJSON()">📥 Descargar JSON Actualizado</button>
+            <button class="btn btn-warning" onclick="copiarJSON()">📋 Copiar JSON</button>
+            <button class="btn btn-danger" onclick="limpiarDatos()">🗑️ Limpiar Datos</button>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="btn">🏠 Volver al Inicio</a>
+            <a href="ver-mensajes.html" class="btn">📋 Ver Mensajes</a>
+            <a href="verificar-datos.html" class="btn">🔍 Verificar Datos</a>
+        </div>
+    </div>
+
+    <script>
+        function mostrarEstado(mensaje, tipo = 'info') {
+            const container = document.getElementById('status-container');
+            container.innerHTML = `<div class="status ${tipo}">${mensaje}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function cargarDatos() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            const preview = document.getElementById('json-preview');
+            const statsContent = document.getElementById('stats-content');
+            
+            if (mensajes.length === 0) {
+                preview.textContent = 'No hay datos guardados en localStorage.';
+                statsContent.innerHTML = '<p>No hay datos para mostrar.</p>';
+                mostrarEstado('No hay datos para mostrar.', 'info');
+                return;
+            }
+            
+            // Mostrar JSON formateado
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            preview.textContent = jsonString;
+            
+            // Mostrar estadísticas
+            const mensajesHoy = mensajes.filter(msg => {
+                const hoy = new Date().toISOString().split('T')[0];
+                return msg.fecha && msg.fecha.startsWith(hoy);
+            }).length;
+            
+            const mensajesPrincipal = mensajes.filter(msg => 
+                msg.pagina === 'index.html'
+            ).length;
+            
+            const mensajesServicios = mensajes.filter(msg => 
+                msg.pagina === 'homecare-services/index.html' || 
+                msg.pagina === 'static/homecare-services/index.html'
+            ).length;
+            
+            statsContent.innerHTML = `
+                <div class="stat-item">
+                    <span>Total de mensajes:</span>
+                    <strong>${mensajes.length}</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Mensajes de hoy:</span>
+                    <strong>${mensajesHoy}</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Página principal:</span>
+                    <strong>${mensajesPrincipal}</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Servicios médicos:</span>
+                    <strong>${mensajesServicios}</strong>
+                </div>
+            `;
+            
+            mostrarEstado(`Datos cargados: ${mensajes.length} mensajes encontrados.`, 'success');
+        }
+        
+        function descargarJSON() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            if (mensajes.length === 0) {
+                mostrarEstado('No hay datos para descargar.', 'error');
+                return;
+            }
+            
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mensajes-formulario.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            mostrarEstado(`✅ Archivo JSON descargado con ${mensajes.length} mensaje(s). Reemplaza el archivo mensajes-formulario.json con este archivo descargado.`, 'success');
+        }
+        
+        function copiarJSON() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            if (mensajes.length === 0) {
+                mostrarEstado('No hay datos para copiar.', 'error');
+                return;
+            }
+            
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            
+            navigator.clipboard.writeText(jsonString).then(() => {
+                mostrarEstado(`✅ JSON copiado al portapapeles (${mensajes.length} mensajes). Ahora pega este contenido en el archivo mensajes-formulario.json.`, 'success');
+            }).catch(err => {
+                // Fallback para navegadores que no soportan clipboard API
+                const textArea = document.createElement('textarea');
+                textArea.value = jsonString;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                mostrarEstado(`✅ JSON copiado al portapapeles (${mensajes.length} mensajes). Ahora pega este contenido en el archivo mensajes-formulario.json.`, 'success');
+            });
+        }
+        
+        function limpiarDatos() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los datos del localStorage?')) {
+                localStorage.removeItem('mensajes_formulario');
+                cargarDatos();
+                mostrarEstado('Todos los datos del localStorage han sido eliminados.', 'success');
+            }
+        }
+        
+        // Cargar datos al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDatos();
+        });
+    </script>
+</body>
+</html>
