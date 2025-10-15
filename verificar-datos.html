@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Datos del Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .info-box h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        .data-preview {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-form {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Verificar Datos del Formulario</h1>
+        
+        <div class="info-box">
+            <h3>ℹ️ Información</h3>
+            <p>Esta página te permite:</p>
+            <ul>
+                <li><strong>Ver</strong> todos los datos guardados en localStorage</li>
+                <li><strong>Probar</strong> el formulario directamente</li>
+                <li><strong>Verificar</strong> que los datos se estén guardando correctamente</li>
+                <li><strong>Descargar</strong> los datos como archivo JSON</li>
+            </ul>
+        </div>
+
+        <div id="status-container"></div>
+
+        <div class="test-form">
+            <h3>🧪 Formulario de Prueba</h3>
+            <form id="test-form">
+                <div class="form-group">
+                    <label for="test-name">Nombre completo:</label>
+                    <input type="text" id="test-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="test-email">Email:</label>
+                    <input type="email" id="test-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="test-phone">Teléfono:</label>
+                    <input type="tel" id="test-phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="test-motivo">Motivo de consulta:</label>
+                    <textarea id="test-motivo" name="motivo" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="test-terms" name="terms" required>
+                        Acepto términos y condiciones
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-success">Enviar Prueba</button>
+            </form>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="btn" onclick="cargarDatos()">🔄 Actualizar Datos</button>
+            <button class="btn btn-success" onclick="descargarJSON()">📥 Descargar JSON</button>
+            <button class="btn btn-warning" onclick="copiarJSON()">📋 Copiar JSON</button>
+            <button class="btn btn-danger" onclick="limpiarDatos()">🗑️ Limpiar Datos</button>
+        </div>
+
+        <div>
+            <h3>📋 Datos Guardados en localStorage:</h3>
+            <div id="data-preview" class="data-preview">
+                Cargando datos...
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="btn">🏠 Volver al Inicio</a>
+            <a href="ver-mensajes.html" class="btn">📋 Ver Mensajes</a>
+        </div>
+    </div>
+
+    <script>
+        function mostrarEstado(mensaje, tipo = 'info') {
+            const container = document.getElementById('status-container');
+            container.innerHTML = `<div class="status ${tipo}">${mensaje}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function cargarDatos() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            const preview = document.getElementById('data-preview');
+            
+            if (mensajes.length === 0) {
+                preview.textContent = 'No hay datos guardados en localStorage.';
+                mostrarEstado('No hay datos para mostrar.', 'info');
+                return;
+            }
+            
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            preview.textContent = jsonString;
+            mostrarEstado(`Cargados ${mensajes.length} mensaje(s) desde localStorage.`, 'success');
+        }
+        
+        function descargarJSON() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            if (mensajes.length === 0) {
+                mostrarEstado('No hay datos para descargar.', 'error');
+                return;
+            }
+            
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mensajes-formulario-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            mostrarEstado(`Archivo JSON descargado con ${mensajes.length} mensaje(s).`, 'success');
+        }
+        
+        function copiarJSON() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            if (mensajes.length === 0) {
+                mostrarEstado('No hay datos para copiar.', 'error');
+                return;
+            }
+            
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            
+            navigator.clipboard.writeText(jsonString).then(() => {
+                mostrarEstado(`JSON copiado al portapapeles (${mensajes.length} mensajes).`, 'success');
+            }).catch(err => {
+                // Fallback para navegadores que no soportan clipboard API
+                const textArea = document.createElement('textarea');
+                textArea.value = jsonString;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                mostrarEstado(`JSON copiado al portapapeles (${mensajes.length} mensajes).`, 'success');
+            });
+        }
+        
+        function limpiarDatos() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
+                localStorage.removeItem('mensajes_formulario');
+                cargarDatos();
+                mostrarEstado('Todos los datos han sido eliminados.', 'success');
+            }
+        }
+        
+        // Función para guardar mensaje (igual que en los formularios)
+        function guardarMensajeLocal(datos) {
+            try {
+                let mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+                mensajes.push(datos);
+                localStorage.setItem('mensajes_formulario', JSON.stringify(mensajes));
+                return true;
+            } catch (error) {
+                console.error('Error al guardar mensaje:', error);
+                return false;
+            }
+        }
+        
+        // Manejar formulario de prueba
+        document.getElementById('test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const datos = {
+                id: Date.now(),
+                nombre: formData.get('name'),
+                email: formData.get('email'),
+                telefono: formData.get('phone'),
+                motivo: formData.get('motivo'),
+                pagina: 'verificar-datos.html',
+                fecha: new Date().toISOString()
+            };
+            
+            const guardado = guardarMensajeLocal(datos);
+            if (guardado) {
+                mostrarEstado('Mensaje de prueba guardado exitosamente.', 'success');
+                this.reset();
+                cargarDatos();
+            } else {
+                mostrarEstado('Error al guardar el mensaje de prueba.', 'error');
+            }
+        });
+        
+        // Cargar datos al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDatos();
+        });
+    </script>
+</body>
+</html>

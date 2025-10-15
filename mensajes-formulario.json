@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1705123456789,
+    "nombre": "Ejemplo de Usuario",
+    "email": "usuario@ejemplo.com",
+    "telefono": "3001234567",
+    "motivo": "Consulta médica general",
+    "pagina": "index.html",
+    "fecha": "2025-01-15T10:30:00.000Z"
+  },
+  {
+    "id": 1760457940217,
+    "nombre": "1",
+    "email": "2",
+    "telefono": "3",
+    "motivo": "4",
+    "pagina": "index.html",
+    "fecha": "2025-10-14T16:05:40.217Z"
+  }
+]

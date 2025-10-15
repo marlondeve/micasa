@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Formularios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .data-preview {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .diagnostic-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .diagnostic-info h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Diagnóstico de Formularios</h1>
+        
+        <div class="diagnostic-info">
+            <h3>ℹ️ Información del Diagnóstico</h3>
+            <p>Esta página te permite probar ambos formularios y verificar que funcionen correctamente.</p>
+        </div>
+
+        <div id="status-container"></div>
+
+        <div class="test-section">
+            <h3>📝 Formulario Principal (index.html)</h3>
+            <form id="form_principal" novalidate>
+                <div class="form-group">
+                    <label for="name_principal">Nombre completo:</label>
+                    <input type="text" id="name_principal" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email_principal">Correo:</label>
+                    <input type="email" id="email_principal" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_principal">Teléfono:</label>
+                    <input type="tel" id="phone_principal" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="motivo_principal">Motivo de consulta:</label>
+                    <textarea id="motivo_principal" name="motivo" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="choice_terms_principal" name="terms" required>
+                        Acepto términos y condiciones
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-success">Enviar Formulario Principal</button>
+            </form>
+        </div>
+
+        <div class="test-section">
+            <h3>🏥 Formulario de Servicios (static/homecare-services/index.html)</h3>
+            <form id="form_servicios" novalidate>
+                <div class="form-group">
+                    <label for="name_servicios">Nombre completo:</label>
+                    <input type="text" id="name_servicios" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email_servicios">Correo:</label>
+                    <input type="email" id="email_servicios" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_servicios">Teléfono:</label>
+                    <input type="tel" id="phone_servicios" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="motivo_servicios">Motivo de consulta:</label>
+                    <textarea id="motivo_servicios" name="motivo" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="choice_terms_servicios" name="terms" required>
+                        Acepto términos y condiciones
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-success">Enviar Formulario de Servicios</button>
+            </form>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="btn" onclick="verDatos()">👁️ Ver Datos Guardados</button>
+            <button class="btn btn-warning" onclick="limpiarDatos()">🗑️ Limpiar Datos</button>
+        </div>
+
+        <div>
+            <h3>📋 Datos Guardados en localStorage:</h3>
+            <div id="data-preview" class="data-preview">
+                Haz clic en "Ver Datos Guardados" para ver el contenido
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="btn">🏠 Ir al Formulario Principal</a>
+            <a href="static/homecare-services/index.html" class="btn">🏥 Ir al Formulario de Servicios</a>
+            <a href="ver-mensajes.html" class="btn">📋 Ver Mensajes</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirm(icon, title, text) {
+            if (window.Swal) {
+                Swal.fire({ icon: icon, title: title, text: text, confirmButtonText: 'Aceptar' });
+            } else {
+                alert(text || title);
+            }
+        }
+        
+        function mostrarEstado(mensaje, tipo = 'info') {
+            const container = document.getElementById('status-container');
+            container.innerHTML = `<div class="status ${tipo}">${mensaje}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+        
+        function guardarMensajeLocal(datos) {
+            try {
+                // Obtener mensajes existentes del localStorage
+                let mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+                
+                // Agregar nuevo mensaje
+                mensajes.push(datos);
+                
+                // Guardar en localStorage
+                localStorage.setItem('mensajes_formulario', JSON.stringify(mensajes));
+                
+                // También intentar guardar en el archivo JSON (solo para desarrollo)
+                console.log('Mensaje guardado:', datos);
+                console.log('Total de mensajes:', mensajes.length);
+                
+                return true;
+            } catch (error) {
+                console.error('Error al guardar mensaje:', error);
+                return false;
+            }
+        }
+        
+        function mostrarMensajesGuardados() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            console.log('Mensajes guardados:', mensajes);
+            
+            // Mostrar en consola para verificar
+            if (mensajes.length > 0) {
+                console.log('=== MENSAJES GUARDADOS ===');
+                mensajes.forEach((msg, index) => {
+                    console.log(`${index + 1}. ${msg.nombre} - ${msg.email} - ${msg.fecha}`);
+                });
+            }
+        }
+        
+        function verDatos() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            const preview = document.getElementById('data-preview');
+            
+            if (mensajes.length === 0) {
+                preview.textContent = 'No hay datos guardados.';
+                mostrarEstado('No hay datos para mostrar.', 'info');
+                return;
+            }
+            
+            const jsonString = JSON.stringify(mensajes, null, 2);
+            preview.textContent = jsonString;
+            mostrarEstado(`Mostrando ${mensajes.length} mensaje(s).`, 'success');
+        }
+        
+        function limpiarDatos() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
+                localStorage.removeItem('mensajes_formulario');
+                verDatos();
+                mostrarEstado('Todos los datos han sido eliminados.', 'success');
+            }
+        }
+        
+        function manejarFormulario(formId, pagina) {
+            const form = document.getElementById(formId);
+            if (!form) return;
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById(`name_${pagina}`).value || '';
+                const email = document.getElementById(`email_${pagina}`).value || '';
+                const phone = document.getElementById(`phone_${pagina}`).value || '';
+                const motivo = document.getElementById(`motivo_${pagina}`).value || '';
+                const terms = document.getElementById(`choice_terms_${pagina}`).checked || false;
+
+                if (!name.trim() || !email.trim() || !phone.trim() || !motivo.trim() || !terms) {
+                    confirm('error', 'Faltan datos', 'Completa los campos requeridos y acepta los términos.');
+                    return;
+                }
+
+                // Mostrar indicador de carga
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = 'Enviando...';
+                submitBtn.disabled = true;
+
+                const datosMensaje = {
+                    id: Date.now(),
+                    nombre: name.trim(),
+                    email: email.trim(),
+                    telefono: phone.trim(),
+                    motivo: motivo.trim(),
+                    pagina: pagina,
+                    fecha: new Date().toISOString()
+                };
+
+                setTimeout(() => {
+                    const guardado = guardarMensajeLocal(datosMensaje);
+                    
+                    // Restaurar botón
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+
+                    if (guardado) {
+                        confirm('success', 'Enviado', `Tu solicitud fue enviada correctamente desde ${pagina}.`);
+                        form.reset();
+                        mostrarMensajesGuardados();
+                        verDatos();
+                    } else {
+                        confirm('error', 'Error', 'No se pudo enviar el mensaje. Inténtalo de nuevo.');
+                    }
+                }, 1000);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar mensajes existentes al cargar la página
+            mostrarMensajesGuardados();
+            
+            // Configurar formularios
+            manejarFormulario('form_principal', 'index.html');
+            manejarFormulario('form_servicios', 'static/homecare-services/index.html');
+        });
+    </script>
+</body>
+</html>

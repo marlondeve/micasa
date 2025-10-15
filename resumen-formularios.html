@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen de Formularios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .formularios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .formulario-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 25px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        .formulario-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.1);
+        }
+        .formulario-card h3 {
+            color: #007bff;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .formulario-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .stats-section {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #007bff;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .info-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        .info-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .info-box li {
+            margin: 5px 0;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Resumen de Formularios</h1>
+        
+        <div class="info-box">
+            <h3>ℹ️ Información del Sistema</h3>
+            <p>Este sistema maneja <strong>2 formularios de contacto</strong> que guardan automáticamente los mensajes:</p>
+            <ul>
+                <li><strong>Formulario Principal</strong> - En la página de inicio</li>
+                <li><strong>Formulario de Servicios</strong> - En la página de servicios médicos</li>
+            </ul>
+            <p>Los mensajes se guardan en el navegador (localStorage) y pueden ser descargados como archivo JSON.</p>
+        </div>
+
+        <div class="stats-section">
+            <h3>📊 Estadísticas en Tiempo Real</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-mensajes">0</div>
+                    <div class="stat-label">Total Mensajes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="mensajes-principal">0</div>
+                    <div class="stat-label">Página Principal</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="mensajes-servicios">0</div>
+                    <div class="stat-label">Servicios Médicos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="mensajes-hoy">0</div>
+                    <div class="stat-label">Hoy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="formularios-grid">
+            <div class="formulario-card">
+                <h3>🏠 Formulario Principal</h3>
+                <p>Formulario ubicado en la página de inicio (index.html) que permite a los usuarios solicitar información general sobre los servicios.</p>
+                <p><strong>Campos:</strong> Nombre, Email, Teléfono, Motivo de consulta, Términos y condiciones</p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="index.html#contacto" class="btn">Ver Formulario</a>
+                    <a href="ver-mensajes.html" class="btn btn-success">Ver Mensajes</a>
+                </div>
+            </div>
+
+            <div class="formulario-card">
+                <h3>🏥 Formulario de Servicios</h3>
+                <p>Formulario ubicado en la página de servicios médicos especializados que permite solicitar información específica sobre servicios médicos.</p>
+                <p><strong>Campos:</strong> Nombre, Email, Teléfono, Motivo de consulta, Términos y condiciones</p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="static/homecare-services/index.html#contacto" class="btn">Ver Formulario</a>
+                    <a href="ver-mensajes.html" class="btn btn-success">Ver Mensajes</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="ver-mensajes.html" class="btn btn-success">📋 Ver Todos los Mensajes</a>
+            <a href="actualizar-json.html" class="btn btn-warning">📥 Descargar JSON</a>
+            <a href="index.html" class="btn">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <script>
+        function actualizarEstadisticas() {
+            const mensajes = JSON.parse(localStorage.getItem('mensajes_formulario') || '[]');
+            
+            // Total de mensajes
+            document.getElementById('total-mensajes').textContent = mensajes.length;
+            
+            // Mensajes por página
+            const mensajesPrincipal = mensajes.filter(msg => 
+                msg.pagina === 'index.html' || msg.pagina === 'index.html'
+            ).length;
+            const mensajesServicios = mensajes.filter(msg => 
+                msg.pagina === 'homecare-services/index.html' || 
+                msg.pagina === 'static/homecare-services/index.html'
+            ).length;
+            
+            document.getElementById('mensajes-principal').textContent = mensajesPrincipal;
+            document.getElementById('mensajes-servicios').textContent = mensajesServicios;
+            
+            // Mensajes de hoy
+            const hoy = new Date().toISOString().split('T')[0];
+            const mensajesHoy = mensajes.filter(msg => 
+                msg.fecha && msg.fecha.startsWith(hoy)
+            ).length;
+            document.getElementById('mensajes-hoy').textContent = mensajesHoy;
+        }
+        
+        // Actualizar estadísticas al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarEstadisticas();
+            
+            // Actualizar cada 5 segundos
+            setInterval(actualizarEstadisticas, 5000);
+        });
+    </script>
+</body>
+</html>
